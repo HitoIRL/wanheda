@@ -3,7 +3,7 @@ use super::pages::{home::Home, not_found::NotFound};
 use yew::prelude::*;
 use yew_router::prelude::*;
 
-#[derive(Clone, PartialEq, Routable)]
+#[derive(Clone, Routable, PartialEq)]
 pub enum Route {
     #[at("/")]
     Home,

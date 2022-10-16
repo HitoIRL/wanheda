@@ -14,7 +14,7 @@ pub struct Props {
 #[styled_component(Redirect)]
 pub fn redirect(props: &Props) -> Html {
     let stylesheet = style!(r#"
-    color: #0053ff;
+    color: var(--text-color);
     text-decoration: none;
     "#).unwrap();
 
