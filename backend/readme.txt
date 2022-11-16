@@ -1,0 +1,1 @@
+$env:DATABASE_URL = 'postgres://postgres:123@localhost/wanheda'
