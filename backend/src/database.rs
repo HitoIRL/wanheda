@@ -1,7 +1,7 @@
-use crate::{models::{Product, NewProduct, UserData, NewUser}, auth::User};
+use crate::models::{Product, NewProduct, User, NewUser};
 
 use rocket_sync_db_pools::{diesel, database};
-use diesel::RunQueryDsl;
+use diesel::prelude::*;
 
 #[database("wanheda")]
 pub struct Database(diesel::PgConnection);
@@ -14,53 +14,60 @@ impl Database {
         self.run(move |conn| {
             products
                 .load(conn)
-                .unwrap() // diesel tries to get rid of any errors at compile-time
+                .unwrap()
         }).await
     }
 
-    pub async fn add_product(&self, title: String, price: f32) -> Product {
+    pub async fn add_product(&self, product: NewProduct) -> Product {
         use crate::schema::products;
-    
-        let new_product = NewProduct {
-            title,
-            price,
-        };
     
         self.run(move |conn| {
             diesel::insert_into(products::table)
-                .values(&new_product)
+                .values(&product)
                 .get_result(conn)
                 .unwrap()
         }).await
     }
 
+    pub async fn remove_product(&self, product_id: i32) {
+        self.run(move |conn| {
+            use crate::schema::products::dsl::*;
+
+            diesel::delete(products.filter(id.eq(&product_id))).execute(conn).unwrap();
+        }).await
+    }
+
     // users
-    /*
-    pub async fn get_user(&self) -> User {
+    pub async fn get_users(&self) -> Vec<User> {
         use crate::schema::users::dsl::*;
 
-        let user_data = self.run(move |conn| {
+        self.run(move |conn| {
             users
-                .select(id)
-                .find(id)
-                .load::<UserData>(conn)
+                .load(conn)
                 .unwrap()
-        }).await;
-
-        todo!()
+        }).await
     }
-    */
+
+    pub async fn get_user(&self, user_info: NewUser) -> Option<User> {
+        use crate::schema::users::dsl::*;
+
+        self.run(move |conn| {
+            users
+                .filter(username.eq(user_info.username))
+                .first(conn)
+                .optional()
+                .unwrap()
+        }).await
+    }
 
     pub async fn create_user(&self, new_user: NewUser) -> User {
         use crate::schema::users;
 
-        let user_data = self.run(move |conn| {
+        self.run(move |conn| {
             diesel::insert_into(users::table)
                 .values(&new_user)
-                .get_result::<UserData>(conn)
+                .get_result(conn)
                 .unwrap()
-        }).await;
-
-        User(user_data.id)
+        }).await
     }
 }

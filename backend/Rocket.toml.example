@@ -6,7 +6,7 @@ secret_key = "" # 256-bit base64
 sentry_dsn = ""
 
 [release]
-sentry_dsn = ""
+sentry_dsn = "" # sentry.io
 
 [global.databases]
 wanheda = { url = "postgres://username:password@localhost/database" }

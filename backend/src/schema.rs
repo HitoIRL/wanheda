@@ -5,6 +5,7 @@ diesel::table! {
         id -> Int4,
         title -> Varchar,
         price -> Float4,
+        image -> Varchar,
     }
 }
 
@@ -13,6 +14,7 @@ diesel::table! {
         id -> Int4,
         username -> Varchar,
         password -> Varchar,
+        is_admin -> Bool,
     }
 }
 
