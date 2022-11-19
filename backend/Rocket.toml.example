@@ -1,5 +1,6 @@
 [global]
 cli_colors = false
+secret_key = "" # 256-bit base64
 
 [debug]
 sentry_dsn = ""

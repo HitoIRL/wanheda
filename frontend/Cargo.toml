@@ -7,7 +7,5 @@ edition = "2021"
 yew = "0.19.3"
 yew-router = "0.16.0"
 stylist = { version = "0.10.1", features = ["yew"] }
-
-# debug
 wasm-logger = "0.2.0"
 log = "0.4.17"
