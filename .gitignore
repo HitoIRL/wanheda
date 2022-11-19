@@ -1,3 +1,6 @@
-dist/
+# sensitive info
+Rocket.toml
+
+# output folders
 target/
-.idea/
+dist/

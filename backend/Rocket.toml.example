@@ -1,0 +1,11 @@
+[global]
+cli_colors = false
+
+[debug]
+sentry_dsn = ""
+
+[release]
+sentry_dsn = ""
+
+[global.databases]
+wanheda = { url = "postgres://username:password@localhost/database" }

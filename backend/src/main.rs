@@ -1,46 +1,43 @@
-/*
-#[macro_use] extern crate rocket;
+mod models;
+mod schema;
+mod database;
 
-#[get("/collection")]
-fn collection() -> String {
-    "{collection}".to_owned()
+use database::Database;
+use models::NewProduct;
+use rocket::{get, launch, routes, http::Status, post, serde::json::Json};
+use rocket_sentry::RocketSentry;
+
+use crate::models::Product;
+
+#[get("/panic")]
+fn pp() {
+    panic!("giga test sentry");
+}
+
+#[get("/get_products", format = "json")]
+async fn get_products(db: Database) -> Json<Vec<Product>> {
+    let products = db
+        .get_products()
+        .await
+        .unwrap(); // TODO: handle errors
+
+    Json(products)
+}
+
+#[post("/add_product", format = "json", data = "<product>")]
+fn add_product(_db: Database, product: Json<NewProduct>) -> Status {
+    println!("{:?}", product);
+    Status::Created
 }
 
 #[launch]
 fn rocket() -> _ {
-    dotenvy::dotenv().ok();
-    rocket::build().mount("/", routes![collection])
-}
-*/
-
-mod models;
-mod schema;
-
-use std::env;
-
-use diesel::prelude::*;
-use dotenvy::dotenv;
-
-use crate::models::Product;
-
-fn establish_connection() -> PgConnection {
-    let url = env::var("DATABASE_URL").expect("Couldnt find DATABASE_URL in your .env file");
-    PgConnection::establish(&url).expect("Failed to connect to the database")
-}
-
-fn main() {
-    dotenv().expect("Failed to load .env file");
-
-    let connection = &mut establish_connection();
-
-    use self::schema::products::dsl::*;
-    let results = products
-        .limit(3)
-        .load::<Product>(connection)
-        .expect("Failed loading products");
-
-    println!("Found {} products", results.len());
-    for product in results {
-        println!("{}", product.title);
-    }
+    rocket::build()
+        .attach(Database::fairing())
+        .attach(RocketSentry::fairing())
+        .mount("/", routes![
+            get_products,
+            add_product,
+            pp
+        ])
 }
