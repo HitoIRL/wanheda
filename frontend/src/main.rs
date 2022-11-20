@@ -1,6 +1,8 @@
 mod components;
 mod pages;
 mod router;
+mod api;
+mod models;
 
 use components::header::Header;
 use router::{Route, switch};
