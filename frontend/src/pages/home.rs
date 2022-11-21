@@ -18,24 +18,30 @@ pub fn home() -> Html {
     let products = products_state.iter().map(|product| html! {
         <div class="product">
             <img alt="product image" src={ api::resource(&product.image) }/>
-            <p key={product.id}>{ format!("{} | {}pln", product.title, product.price) }</p> // TODO: split title and price
+            <div class="info-row">
+                <p>{ format!("{}", product.title) }</p>
+                <p>{ format!("{}pln", product.price) }</p>
+            </div>
         </div>
     }).collect::<Html>();
 
     let stylesheet = style!(r#"
     display: grid;
-    grid-template-columns: repeat(auto-fit, 300px);
+    grid-template-columns: repeat(auto-fill, 430px);
     gap: 10px;
-    justify-content: center;
-
-    margin-left: 50px;
-    margin-right: 50px;
+    margin: 10px 10px;
 
     .product {
         display: flex;
         flex-direction: column;
+        
+        border: 1px solid black;
+    }
 
-        width: 300px;
+    .info-row {
+        display: flex;
+        justify-content: space-between;
+        margin: 0 100px;
     }
     "#).unwrap();
 
