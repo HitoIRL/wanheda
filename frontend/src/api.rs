@@ -25,3 +25,8 @@ pub async fn post<S: Serialize>(request: String, body: S) -> Response {
         .await
         .unwrap()
 }
+
+// returns specified resource uri
+pub fn resource(path: &str) -> String {
+    format!("{API_URL}/public/{}", path)
+}

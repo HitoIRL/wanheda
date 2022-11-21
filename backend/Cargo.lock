@@ -126,7 +126,6 @@ dependencies = [
  "diesel",
  "rocket",
  "rocket-sentry",
- "rocket_cors",
  "rocket_sync_db_pools",
  "sentry",
  "serde",
@@ -1353,22 +1352,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "rocket_cors"
-version = "0.6.0-alpha1"
-source = "git+https://github.com/HitoIRL/rocket_cors#504376a2bf3efb8229a3223448d3028aa8f5f94b"
-dependencies = [
- "http",
- "log",
- "regex",
- "rocket",
- "serde",
- "serde_derive",
- "unicase",
- "unicase_serde",
- "url",
-]
-
-[[package]]
 name = "rocket_http"
 version = "0.5.0-rc.2"
 source = "git+https://github.com/SergioBenitez/Rocket?rev=f0d678d464e776aaaf5d7d5f1d30df3422d362f9#f0d678d464e776aaaf5d7d5f1d30df3422d362f9"
@@ -1990,25 +1973,6 @@ checksum = "09b01702b0fd0b3fadcf98e098780badda8742d4f4a7676615cad90e8ac73622"
 dependencies = [
  "serde",
  "version_check",
-]
-
-[[package]]
-name = "unicase"
-version = "2.6.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "50f37be617794602aabbeee0be4f259dc1778fabe05e2d67ee8f79326d5cb4f6"
-dependencies = [
- "version_check",
-]
-
-[[package]]
-name = "unicase_serde"
-version = "0.1.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6ef53697679d874d69f3160af80bc28de12730a985d57bdf2b47456ccb8b11f1"
-dependencies = [
- "serde",
- "unicase",
 ]
 
 [[package]]
