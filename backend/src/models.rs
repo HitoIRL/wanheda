@@ -42,7 +42,7 @@ impl<'r> FromRequest<'r> for User {
     }
 }
 
-#[derive(Insertable, Deserialize)]
+#[derive(Insertable, Deserialize, Clone)]
 #[diesel(table_name = users)]
 pub struct NewUser { // TODO: rename
     pub username: String,
