@@ -1,9 +1,9 @@
 use reqwest::{Response, Url};
-use serde::{Serialize, Deserialize};
+use serde::{Serialize, de::DeserializeOwned};
 
 pub const API_URL: &str = env!("API_URL");
 
-pub async fn get<T: for<'de> Deserialize<'de>>(request: &str) -> T {
+pub async fn get<T: DeserializeOwned>(request: &str) -> T {
     let mut url = Url::parse(API_URL).unwrap();
     url.set_path(request);
 

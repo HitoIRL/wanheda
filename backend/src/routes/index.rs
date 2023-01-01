@@ -23,9 +23,10 @@ pub async fn register(db: Database, _cookies: &CookieJar<'_>, new_user: Json<New
 
 #[post("/login", data = "<new_user>")]
 pub async fn login(db: Database, cookies: &CookieJar<'_>, new_user: Json<NewUser>) -> Status {
-    let original_password = new_user.clone().into_inner().password;
+    let new_user = new_user.into_inner();
+    let original_password = new_user.password.clone();
 
-    match db.get_user(new_user.into_inner()).await {
+    match db.get_user(new_user).await {
         Some(user) => {
             let parsed_hash = PasswordHash::new(&user.password).unwrap();
             if Argon2::default().verify_password(original_password.as_bytes(), &parsed_hash).is_ok() {
